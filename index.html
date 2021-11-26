@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+    <style>
+      .alarmy {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        border: 3px solid lightblue;
+        border-radius: 10px;
+        background-color: lightblue;
+        color: black;
+        font-size: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      style="
+        border: 5px solid lightblue;
+        width: fit-content;
+        border-radius: 50px;
+      "
+      class="m-3 p-2 mx-auto text-center shadow"
+    >
+      <h3>Alarm</h3>
+      <!-- <h1 style="border: 3px solid lightblue" id="okay"></h1> -->
+      <main class="d-flex justify-content-center">
+        <div class="m-3 alarmy"><p id="hr"></p></div>
+
+        <div class="m-3 alarmy"><p id="min"></p></div>
+
+        <div class="m-3 alarmy"><p id="sec"></p></div>
+      </main>
+      <h2 style="color: rgb(33, 7, 90)" id="fat"></h2>
+      <p id="set" class="text-danger"></p>
+      <div class="d-flex m-2 mx-auto p-3">
+        <input
+          type="number"
+          onblur="myhr()"
+          id="hour"
+          size="5"
+          placeholder="Hour"
+        />
+        <input
+          type="number"
+          onblur="mymin()"
+          id="minut"
+          size="5"
+          placeholder="Minutes"
+        />
+        <input type="text" id="assig" size="5" placeholder="Todo" />
+        <button id="chan" onclick="start()">Set Alarm</button>
+
+        <audio autoplay id="music">
+          <source src="../JavaScript Projects/tope alabi - kokoro .mp3" />
+        </audio>
+      </div>
+    </main>
+  </body>
+  <marquee behavior="sliding" direction="left" id="display"></marquee>
+</html>
+<script>
+  let a;
+  let b;
+  let c;
+  let demo;
+  let d = document.getElementById("music");
+  let e;
+  let HH;
+  let MM;
+  let myHH;
+  let myMin;
+  let free;
+
+  function start() {
+    a = Number(hour.value);
+    b = Number(minut.value);
+    c = assig.value;
+    let date = new Date();
+    set.innerHTML = `${myHH} : ${myMin}`;
+    // if ((a == "") & (b == "")) {
+    //   return;
+    // }
+    //else if (a != date.getHours() && b != date.getMinutes()) {
+    //   set.innerHTML = "Not within time range";
+    // } else if (a < date.getHours() || b < date.getMinutes()) {
+    //   set.innerHTML = "It's past the time";
+    // } else {
+    //   set.innerHTML = `<p>Alarm set at ${a} : ${b}</p>`;
+
+    if (a < date.getHours() && b < date.getMinutes()) {
+      set.innerHTML = "It's past the time";
+    } else {
+      set.innerHTML = `<p>Alarm set at ${a} : ${b}</p>`;
+
+      demo = setInterval(() => {
+        let date = new Date();
+
+        if (a == date.getHours() && b == date.getMinutes()) {
+          d.play();
+
+          set.innerHTML = `Alarm Ringing`;
+          display.innerHTML = c;
+          chan.innerHTML = "Stop";
+        } else {
+          chan.innerHTML = `Set Alarm`;
+          d.pause();
+        }
+      }, 100);
+    }
+  }
+
+  function myhr() {
+    myHH = Number(hour.value);
+    HH = false;
+    if (
+      hour.value != "" &&
+      myHH > 0 &&
+      myHH < 24 &&
+      Number.isSafeInteger(myHH)
+    ) {
+      // newHH = myHH;
+      HH = true;
+    } else {
+      hour.value = "";
+      set.innerHTML = "Input hour";
+    }
+  }
+
+  function mymin() {
+    myMin = Number(minut.value);
+    MM = false;
+    if (
+      minut.value != "" &&
+      myMin >= 0 &&
+      myMin <= 59 &&
+      Number.isSafeInteger(myMin)
+    ) {
+      MM = true;
+    } else {
+      minut.value = "";
+      set.innerHTML = "Input Minute";
+    }
+  }
+
+  function displa(params) {
+    let date = new Date();
+    // tim = date.toLocaleTimeString();
+    mit = date.toLocaleDateString();
+    //okay.innerHTML = ` ${tim}`;
+    fat.innerHTML = mit;
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    hr.innerHTML = hour;
+    min.innerHTML = minute;
+    sec.innerHTML = seconds;
+  }
+  setInterval(displa, 1000);
+  displa();
+</script>
